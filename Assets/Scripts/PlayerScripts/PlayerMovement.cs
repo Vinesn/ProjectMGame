@@ -8,32 +8,30 @@ public class PlayerMovement : MonoBehaviour
     Vector2 movementInput;
     Rigidbody2D rb;
     Animator animator;
-
-    private CharacterKnockback charKnockback;
+    CharacterStateControl charStateControl;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        charKnockback = GetComponent<CharacterKnockback>();
+        charStateControl = GetComponent<CharacterStateControl>();
     }
 
     void Update()
     {
-        bool isMoving = charKnockback.CanMove() && movementInput != Vector2.zero;
+        bool isMoving = charStateControl.CanMove() && movementInput != Vector2.zero;
         animator.SetBool("isMoving", isMoving);
     }
 
     void FixedUpdate()
     {
-        if (charKnockback.CanMove() && movementInput != Vector2.zero)
+        if (charStateControl.CanMove() && movementInput != Vector2.zero)
         {
-            Vector2 playerMove = (rb.position + movementInput * MovementSpeed * Time.fixedDeltaTime);
+            Vector2 playerMove = rb.position + movementInput * MovementSpeed * Time.fixedDeltaTime;
             rb.MovePosition(playerMove);
 
             animator.SetFloat("MoveX", movementInput.x);
             animator.SetFloat("MoveY", movementInput.y);
-
             LastPlayerMoveDirection = movementInput.normalized;
         }
         else
@@ -41,11 +39,6 @@ public class PlayerMovement : MonoBehaviour
             animator.SetFloat("MoveX", LastPlayerMoveDirection.x);
             animator.SetFloat("MoveY", LastPlayerMoveDirection.y);
         }
-    }
-
-    public void SetCanMove(bool value)
-    {
-        charKnockback.SetCanMove(value);
     }
 
     void OnMove(InputValue movementValue)

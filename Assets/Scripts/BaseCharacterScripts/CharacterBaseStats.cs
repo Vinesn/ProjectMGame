@@ -17,21 +17,12 @@ public class CharacterBaseStats : MonoBehaviour
         float appliedDamage = Mathf.Clamp(damage - Defense, 0, float.MaxValue);
 
         CurrentHealth -= appliedDamage;
-
-        if (CurrentHealth <= 0)
-        {
-            Debug.Log(gameObject.name + " HP zmieni³o siê: " + CurrentHealth);
-        }
+        Debug.Log(gameObject.name + " HP zmieni³o siê: " + CurrentHealth);
     }
     public void Heal(float healAmount)
     {
         //Wzór na heal (WZÓR, MIN WARTOŒÆ, MAX WARTOŒÆ)
         CurrentHealth = Mathf.Clamp(CurrentHealth + healAmount, 0, MaxHealthPoints);
         Debug.Log(gameObject.name + " zosta³ uleczony. Aktualne HP: " + CurrentHealth);
-    }
-
-    protected virtual void Die()
-    {
-        Debug.Log(gameObject.name + " zgin¹³.");
     }
 }

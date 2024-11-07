@@ -52,7 +52,7 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
@@ -67,7 +67,7 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit2D(Collider2D other)
+    void OnTriggerExit2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
@@ -75,7 +75,7 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
         //Roaming do animacji i statusu Braku Agro, useless na razie
         //bool isRoaming = !playerOnSight && !isSlowingDown;
@@ -121,7 +121,7 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-    private IEnumerator DealDamage(GameObject playerObject)
+    IEnumerator DealDamage(GameObject playerObject)
     {
         canMove = false;
 
