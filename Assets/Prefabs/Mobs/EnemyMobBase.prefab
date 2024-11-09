@@ -12,8 +12,14 @@ GameObject:
   - component: {fileID: 5682529116237352348}
   - component: {fileID: 8985874816358900114}
   - component: {fileID: 7273905167138812826}
-  - component: {fileID: 3182567482812996517}
   - component: {fileID: 1094329111815393089}
+  - component: {fileID: 5557324195660093063}
+  - component: {fileID: 3799822757312267790}
+  - component: {fileID: 7674812550600998499}
+  - component: {fileID: 9038456991606333035}
+  - component: {fileID: 569195466458709499}
+  - component: {fileID: 6307099929074989413}
+  - component: {fileID: 5633925707966838158}
   m_Layer: 0
   m_Name: EnemyMobBase
   m_TagString: Enemy
@@ -164,26 +170,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.9, y: 0.9}
   m_EdgeRadius: 0
---- !u!114 &3182567482812996517
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1162204537648245739}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a32a8df62868f3244b3eb5e24738760d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sightRange: 1
-  searchAttentionSpan: 0.1
-  moveSpeed: 0.5
-  enemyDamage: 10
-  attackCD: 2
-  knockBackTime: 1
-  knockbackForce: 2
-  stunTime: 1
 --- !u!114 &1094329111815393089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,3 +185,92 @@ MonoBehaviour:
   MaxHealthPoints: 100
   AttackDamage: 10
   Defense: 5
+--- !u!114 &5557324195660093063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1162204537648245739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afcd6c1f6058e0447bba1fee6c4a5408, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 0.5
+  searchAttentionSpan: 0.1
+--- !u!114 &3799822757312267790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1162204537648245739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ec98639710ab9b4fa5d8d7a43f5aec5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7674812550600998499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1162204537648245739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa9a3b60ef59cc049a7215f2b3e0209e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &9038456991606333035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1162204537648245739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d102f5e5a0e9f9e46b9dec0ff71237c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lastAttackTime: 0
+  attackCD: 1
+--- !u!114 &569195466458709499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1162204537648245739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce0a847866de2854a846ffc3ca113fdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6307099929074989413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1162204537648245739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2b3213aa99ea524cbf6ba01eb7c4f57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5633925707966838158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1162204537648245739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7ec96c325dce68448aff76dacf59177, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sightRange: 0.5
