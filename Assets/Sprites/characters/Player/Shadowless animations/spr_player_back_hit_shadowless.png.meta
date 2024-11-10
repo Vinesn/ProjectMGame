@@ -235,7 +235,11 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      spr_player_back_hit_shadowless_0: 833810283518166683
+      spr_player_back_hit_shadowless_1: -3279304739961072883
+      spr_player_back_hit_shadowless_2: -6082274859900737363
+      spr_player_back_hit_shadowless_3: -6804295366005242918
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -435,7 +435,19 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      spr_player_left_idle_shadowless_0: -4253257709375132200
+      spr_player_left_idle_shadowless_1: -1540360725948338772
+      spr_player_left_idle_shadowless_10: 7824211324398205915
+      spr_player_left_idle_shadowless_11: -5678406680865454304
+      spr_player_left_idle_shadowless_2: 2872643221715125587
+      spr_player_left_idle_shadowless_3: -7634777954957758360
+      spr_player_left_idle_shadowless_4: -982954514937342657
+      spr_player_left_idle_shadowless_5: -7663274090162109936
+      spr_player_left_idle_shadowless_6: -1500464226726497324
+      spr_player_left_idle_shadowless_7: -654012963242183758
+      spr_player_left_idle_shadowless_8: -7093946787195007105
+      spr_player_left_idle_shadowless_9: 5032757301073062990
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

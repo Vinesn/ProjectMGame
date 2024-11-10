@@ -285,7 +285,13 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      spr_player_back_walk_shadowless_0: -4087630876128210793
+      spr_player_back_walk_shadowless_1: -6940407990136847594
+      spr_player_back_walk_shadowless_2: -4155368951085046611
+      spr_player_back_walk_shadowless_3: 8321900978738369815
+      spr_player_back_walk_shadowless_4: 363991179044480078
+      spr_player_back_walk_shadowless_5: 4981902484133076508
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

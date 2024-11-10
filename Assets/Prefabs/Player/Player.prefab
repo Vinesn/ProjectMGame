@@ -14,11 +14,15 @@ GameObject:
   - component: {fileID: 736709335324486562}
   - component: {fileID: 3687876766324555857}
   - component: {fileID: 5493584928231286952}
+<<<<<<< Updated upstream
   - component: {fileID: 4683434491237602951}
   - component: {fileID: 3431222052486636093}
   - component: {fileID: 6089464655380225809}
   - component: {fileID: 6079782871939321146}
   - component: {fileID: 1230881386295711550}
+=======
+  - component: {fileID: 8843628606881005719}
+>>>>>>> Stashed changes
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -273,7 +277,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.15110363, y: 0.068479165}
   m_EdgeRadius: 0
---- !u!114 &4683434491237602951
+--- !u!114 &8843628606881005719
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -282,6 +286,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4602023896419322858}
   m_Enabled: 1
   m_EditorHideFlags: 0
+<<<<<<< Updated upstream
   m_Script: {fileID: 11500000, guid: 9115ffbdd3ad0254c8fc1e903f8eca74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
@@ -338,3 +343,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8309fa9694fd00b4f9922532d3b41c85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+=======
+  m_Script: {fileID: 11500000, guid: cc9f3a92b9834324ebd6b725969c7188, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 1
+  playerMapLocation: {x: 0, y: 0}
+  playerHP: 100
+>>>>>>> Stashed changes

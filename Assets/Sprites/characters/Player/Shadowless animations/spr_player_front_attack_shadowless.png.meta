@@ -410,7 +410,18 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      spr_player_front_attack_shadowless_0: -7582661634317650745
+      spr_player_front_attack_shadowless_1: -6299791619717912749
+      spr_player_front_attack_shadowless_10: 2166197536070920594
+      spr_player_front_attack_shadowless_2: -1308030209389003335
+      spr_player_front_attack_shadowless_3: 1940211882724783541
+      spr_player_front_attack_shadowless_4: 6069704840956180000
+      spr_player_front_attack_shadowless_5: 4965542721972142449
+      spr_player_front_attack_shadowless_6: 4693254479981127098
+      spr_player_front_attack_shadowless_7: 6781849193176866304
+      spr_player_front_attack_shadowless_8: 2716207587388890367
+      spr_player_front_attack_shadowless_9: -4378939841593076609
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

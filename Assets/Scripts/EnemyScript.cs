@@ -46,7 +46,7 @@ public class EnemyScript : MonoBehaviour
     {
         if (player != null)
         {
-            Vector2 playerLocation = player.playerMapLocation;
+            Vector2 playerLocation = player.transform.position;
             float distanceToPlayer = (playerLocation - (Vector2)transform.position).sqrMagnitude;
             playerOnSight = distanceToPlayer < sightRange*sightRange;
         }
@@ -86,7 +86,7 @@ public class EnemyScript : MonoBehaviour
 
         if (playerOnSight && canMove)
         {
-            Vector2 direction = (player.playerMapLocation - rb.position).normalized;
+            Vector2 direction = ((Vector2)player.transform.position - rb.position).normalized;
             Vector2 enemyMove = rb.position + direction * moveSpeed * Time.fixedDeltaTime;
             rb.MovePosition(enemyMove);
 

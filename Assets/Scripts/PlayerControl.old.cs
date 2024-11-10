@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -7,7 +8,6 @@ using UnityEngine.InputSystem;
 public class PlayerControl : MonoBehaviour
 {
     public float movementSpeed = 1f;
-    public Vector2 playerMapLocation;
     public float playerHP = 100f;
 
     private Vector2 movementInput;
@@ -18,19 +18,16 @@ public class PlayerControl : MonoBehaviour
     private float knockBackTime = 0.1f;
     private bool isKnockedBack;
     private bool isStunned = false;
+    bool isAttacking;
     private Coroutine knockback;
+
+    public event Action<bool> BasicAttackPressed;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
     }
-
-    void Update()
-    {
-        playerMapLocation = new Vector2(transform.position.x, transform.position.y);
-    }
-
     private void FixedUpdate()
     {
         if (movementInput != Vector2.zero && !isKnockedBack && !isStunned)
@@ -90,5 +87,15 @@ public class PlayerControl : MonoBehaviour
     void OnMove(InputValue movementValue)
     {
         movementInput = movementValue.Get<Vector2>();
+    }
+
+    void OnAttack(InputValue value)
+    {
+        if (value.isPressed)
+        {
+            Debug.Log("Attack button pressed");
+            isAttacking = true;
+            //Nie wiem pojebie mnie
+        }
     }
 }

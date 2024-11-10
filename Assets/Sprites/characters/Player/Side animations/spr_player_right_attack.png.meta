@@ -150,10 +150,10 @@ TextureImporter:
       name: spr_player_right_attack_0
       rect:
         serializedVersion: 2
-        x: 23
-        y: 17
-        width: 17
-        height: 26
+        x: 0
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -172,10 +172,10 @@ TextureImporter:
       name: spr_player_right_attack_1
       rect:
         serializedVersion: 2
-        x: 87
-        y: 17
-        width: 17
-        height: 26
+        x: 64
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -194,10 +194,10 @@ TextureImporter:
       name: spr_player_right_attack_2
       rect:
         serializedVersion: 2
-        x: 151
-        y: 17
-        width: 28
-        height: 26
+        x: 128
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -216,10 +216,10 @@ TextureImporter:
       name: spr_player_right_attack_3
       rect:
         serializedVersion: 2
-        x: 215
-        y: 17
-        width: 39
-        height: 26
+        x: 192
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -238,10 +238,10 @@ TextureImporter:
       name: spr_player_right_attack_4
       rect:
         serializedVersion: 2
-        x: 279
-        y: 17
-        width: 32
-        height: 26
+        x: 256
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -260,10 +260,10 @@ TextureImporter:
       name: spr_player_right_attack_5
       rect:
         serializedVersion: 2
-        x: 310
-        y: 21
-        width: 8
-        height: 10
+        x: 320
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -282,10 +282,10 @@ TextureImporter:
       name: spr_player_right_attack_6
       rect:
         serializedVersion: 2
-        x: 341
-        y: 17
-        width: 40
-        height: 26
+        x: 384
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -300,33 +300,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: spr_player_right_attack_7
-      rect:
-        serializedVersion: 2
-        x: 400
-        y: 17
-        width: 24
-        height: 26
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 37d62ba1854c40930800000000000000
-      internalID: 4108624642752802163
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: c9f1426ceffe4564481db23092c43756
     internalID: 0
     vertices: []
     indices: 
@@ -343,7 +321,6 @@ TextureImporter:
       spr_player_right_attack_4: -291539360863411257
       spr_player_right_attack_5: -4393288114827582582
       spr_player_right_attack_6: -1610358376348479289
-      spr_player_right_attack_7: 4108624642752802163
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
