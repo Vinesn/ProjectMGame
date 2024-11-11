@@ -1,37 +1,36 @@
 using UnityEngine;
 
-public class CharacterBaseStats : MonoBehaviour
+public class PlayerBaseStats : MonoBehaviour
 {
     public float MaxHealthPoints = 100.0f;
     public float CurrentHealth { get; private set; }
     public float AttackDamage = 10f;
     public float Defense = 5f;
+    public float movementSpeed = 1f;
 
-    private void Awake()
+    private void Start()
     {
         CurrentHealth = MaxHealthPoints;
     }
     public void TakeDamage(float damage)
     {
-        //Wzór na Damage (WZÓR, MIN WARTOŒÆ, MAX WARTOŒÆ)
         float appliedDamage = Mathf.Clamp(damage - Defense, 0, float.MaxValue);
-
         CurrentHealth -= appliedDamage;
-
+        Debug.Log(gameObject.name + " HP zmieni³o siê: " + CurrentHealth);
         if (CurrentHealth <= 0)
         {
-            Debug.Log(gameObject.name + " HP zmieni³o siê: " + CurrentHealth);
+            Die();
         }
     }
     public void Heal(float healAmount)
     {
-        //Wzór na heal (WZÓR, MIN WARTOŒÆ, MAX WARTOŒÆ)
         CurrentHealth = Mathf.Clamp(CurrentHealth + healAmount, 0, MaxHealthPoints);
         Debug.Log(gameObject.name + " zosta³ uleczony. Aktualne HP: " + CurrentHealth);
     }
 
-    protected virtual void Die()
+    private void Die()
     {
         Debug.Log(gameObject.name + " zgin¹³.");
+        Destroy(gameObject);
     }
 }

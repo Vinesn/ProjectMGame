@@ -14,15 +14,8 @@ GameObject:
   - component: {fileID: 736709335324486562}
   - component: {fileID: 3687876766324555857}
   - component: {fileID: 5493584928231286952}
-<<<<<<< Updated upstream
-  - component: {fileID: 4683434491237602951}
-  - component: {fileID: 3431222052486636093}
-  - component: {fileID: 6089464655380225809}
-  - component: {fileID: 6079782871939321146}
-  - component: {fileID: 1230881386295711550}
-=======
-  - component: {fileID: 8843628606881005719}
->>>>>>> Stashed changes
+  - component: {fileID: 2391773392277598209}
+  - component: {fileID: 3210890641245830034}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -229,7 +222,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &5493584928231286952
 BoxCollider2D:
@@ -277,7 +270,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.15110363, y: 0.068479165}
   m_EdgeRadius: 0
---- !u!114 &8843628606881005719
+--- !u!114 &2391773392277598209
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -286,25 +279,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4602023896419322858}
   m_Enabled: 1
   m_EditorHideFlags: 0
-<<<<<<< Updated upstream
-  m_Script: {fileID: 11500000, guid: 9115ffbdd3ad0254c8fc1e903f8eca74, type: 3}
+  m_Script: {fileID: 11500000, guid: a17c5495701b8504fbb5afec76716179, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovementSpeed: 1
---- !u!114 &3431222052486636093
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4602023896419322858}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4859aba5ac03f24589b33cc668d9ff5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PlayerMapPosition: {x: 0, y: 0}
---- !u!114 &6089464655380225809
+--- !u!114 &3210890641245830034
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -319,35 +297,4 @@ MonoBehaviour:
   MaxHealthPoints: 100
   AttackDamage: 10
   Defense: 5
---- !u!114 &6079782871939321146
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4602023896419322858}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa9a3b60ef59cc049a7215f2b3e0209e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1230881386295711550
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4602023896419322858}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8309fa9694fd00b4f9922532d3b41c85, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-=======
-  m_Script: {fileID: 11500000, guid: cc9f3a92b9834324ebd6b725969c7188, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   movementSpeed: 1
-  playerMapLocation: {x: 0, y: 0}
-  playerHP: 100
->>>>>>> Stashed changes

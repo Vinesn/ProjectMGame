@@ -5,36 +5,52 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerControl : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
-    public float movementSpeed = 1f;
-    public float playerHP = 100f;
-
+    float playerHp;
+    float movementSpeed;
+    PlayerBaseStats playerBaseStats;
     private Vector2 movementInput;
     private Vector2 lastPlayerMoveDirection = new Vector2(0, -1);
     private bool isPlayerMoving;
     private Rigidbody2D rb;
     private Animator animator;
+    private PlayerControls playerInput;
     private float knockBackTime = 0.1f;
     private bool isKnockedBack;
     private bool isStunned = false;
-    bool isAttacking;
     private Coroutine knockback;
 
-    public event Action<bool> BasicAttackPressed;
-
-    void Start()
+    private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        playerBaseStats = GetComponent<PlayerBaseStats>();
+        playerInput = new PlayerControls();
     }
+
+    private void Start()
+    {
+        movementSpeed = playerBaseStats.movementSpeed;
+    }
+
+    void OnEnable()
+    {
+        playerInput.Enable();
+        playerInput.Player.Attack.started += _ => BaseAttack();
+    }
+
+    private void Update()
+    {
+        PlayerInput();
+    }
+
     private void FixedUpdate()
     {
         if (movementInput != Vector2.zero && !isKnockedBack && !isStunned)
         {
             isPlayerMoving = true;
-            Vector2 playerMove = (rb.position + movementInput * movementSpeed * Time.fixedDeltaTime);
-            rb.MovePosition(playerMove);
+            Move();
 
             animator.SetFloat("MoveX", movementInput.x);
             animator.SetFloat("MoveY", movementInput.y);
@@ -52,10 +68,15 @@ public class PlayerControl : MonoBehaviour
 
     }
 
-    public void TakeDamage(EnemyScript enemy)
+    private void BaseAttack()
     {
-        playerHP -= enemy.enemyDamage;
-        Debug.Log("Player HP changed to: " + playerHP);
+        animator.SetTrigger("DoBaseAttack");
+    }
+
+    public void ReceiveDamageFrom(EnemyAI enemy)
+    {
+        float damage = enemy.GetEnemyStats().AttackDamage;
+        playerBaseStats.TakeDamage(damage);
         if (isKnockedBack) return;
         KnockbackPlayer(enemy.transform.position, enemy.stunTime, enemy.knockbackForce);
     }
@@ -84,18 +105,14 @@ public class PlayerControl : MonoBehaviour
         isStunned = false;
     }
 
-    void OnMove(InputValue movementValue)
+    void PlayerInput()
     {
-        movementInput = movementValue.Get<Vector2>();
+        movementInput = playerInput.Player.Move.ReadValue<Vector2>();
     }
 
-    void OnAttack(InputValue value)
+    void Move()
     {
-        if (value.isPressed)
-        {
-            Debug.Log("Attack button pressed");
-            isAttacking = true;
-            //Nie wiem pojebie mnie
-        }
+        Vector2 playerMove = (rb.position + movementInput * movementSpeed * Time.fixedDeltaTime);
+        rb.MovePosition(playerMove);
     }
 }

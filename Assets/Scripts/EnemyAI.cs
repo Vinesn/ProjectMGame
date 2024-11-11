@@ -2,39 +2,43 @@ using UnityEngine;
 using System.Collections;
 using Unity.Cinemachine;
 
-public class EnemyScript : MonoBehaviour
+public class EnemyAI : MonoBehaviour
 {
-    public float sightRange = 1f;
     public float searchAttentionSpan = 0.1f;
-    public float moveSpeed = 0.5f;
-    public float enemyDamage = 10f;
-    public float attackCD = 2f;
     public float knockBackTime = 1f;
     public float knockbackForce = 2f;
     public float stunTime = 1f;
     private Rigidbody2D rb;
-    private PlayerControl player;
+    private PlayerController player;
     private Coroutine damaging;
-    private bool playerOnSight;
     private bool canMove = true;
     private bool isSlowingDown = false;
     private float lastAttackTime;
     private float currentSpeed;
     private Vector2 lastTargetDirection = Vector2.zero;
+    EnemyBaseStats enemyBaseStats;
+    EnemyPlayerDetection playerDetection;
 
+    bool playerOnSight;
     //DODAÆ KOLIZJE ENEMY Z ENEMY (Hitbox jako child)
 
     //private bool isRoaming = true;
     private Vector2 currentVelocity = Vector2.zero;
 
-    void Start()
+    private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        enemyBaseStats = GetComponent<EnemyBaseStats>();
+        playerDetection = GetComponentInChildren<EnemyPlayerDetection>();
+    }
+
+    void Start()
+    {
         GameObject playerObject = GameObject.FindWithTag("Player");
 
         if (playerObject != null)
         {
-            player = playerObject.GetComponent<PlayerControl>();
+            player = playerObject.GetComponent<PlayerController>();
         }
         else
         {
@@ -44,35 +48,7 @@ public class EnemyScript : MonoBehaviour
 
     void Update()
     {
-        if (player != null)
-        {
-            Vector2 playerLocation = player.transform.position;
-            float distanceToPlayer = (playerLocation - (Vector2)transform.position).sqrMagnitude;
-            playerOnSight = distanceToPlayer < sightRange*sightRange;
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            if (Time.time >= lastAttackTime + attackCD)
-            {
-                if (damaging != null)
-                    {
-                        StopCoroutine(damaging);
-                    }
-                damaging = StartCoroutine(DealDamage(other.gameObject));
-            }
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            lastAttackTime = 0;
-        }
+        playerOnSight = playerDetection;
     }
 
     private void FixedUpdate()
@@ -87,7 +63,7 @@ public class EnemyScript : MonoBehaviour
         if (playerOnSight && canMove)
         {
             Vector2 direction = ((Vector2)player.transform.position - rb.position).normalized;
-            Vector2 enemyMove = rb.position + direction * moveSpeed * Time.fixedDeltaTime;
+            Vector2 enemyMove = rb.position + direction * enemyBaseStats.movementSpeed * Time.fixedDeltaTime;
             rb.MovePosition(enemyMove);
 
             lastTargetDirection = direction;
@@ -97,7 +73,7 @@ public class EnemyScript : MonoBehaviour
         {
             if (!isSlowingDown)
             {
-                currentSpeed = moveSpeed;
+                currentSpeed = enemyBaseStats.movementSpeed;
                 isSlowingDown = true;
             }
 
@@ -120,19 +96,18 @@ public class EnemyScript : MonoBehaviour
             }
         }
     }
+    public EnemyBaseStats GetEnemyStats()
+    {
+        return enemyBaseStats;
+    }
 
     private IEnumerator DealDamage(GameObject playerObject)
     {
         canMove = false;
-
-        if (playerObject != null)
-        {
-            player.TakeDamage(this);
-        }
-
+        player.ReceiveDamageFrom(this);
         lastAttackTime = Time.time;
 
-        yield return new WaitForSeconds(attackCD);
+        yield return new WaitForSeconds(enemyBaseStats.attackCD);
 
         canMove = true;
     }
