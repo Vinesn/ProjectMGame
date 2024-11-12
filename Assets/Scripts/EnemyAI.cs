@@ -18,8 +18,8 @@ public class EnemyAI : MonoBehaviour
     private Vector2 lastTargetDirection = Vector2.zero;
     EnemyBaseStats enemyBaseStats;
     EnemyPlayerDetection playerDetection;
-
     bool playerOnSight;
+
     //DODAÆ KOLIZJE ENEMY Z ENEMY (Hitbox jako child)
 
     //private bool isRoaming = true;
@@ -48,7 +48,10 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
-        playerOnSight = playerDetection;
+        if (playerDetection != null)
+        {
+            playerOnSight = playerDetection.PlayerOnSight;
+        }
     }
 
     private void FixedUpdate()

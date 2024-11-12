@@ -8,7 +8,7 @@ public class EnemyBaseStats : MonoBehaviour
     public float attackCD = 2f;
     public float Defense = 5f;
     public float movementSpeed = 0.8f;
-    public float sightRadius = 5f;
+    public float sightRadius = 1f;
 
     private void Start()
     {
