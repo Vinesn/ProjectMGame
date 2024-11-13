@@ -7,11 +7,13 @@ public class EnemyPlayerDetection : MonoBehaviour
     [SerializeField] bool showGizmos = true;
     GameObject player;
     public bool PlayerOnSight { get; private set; }
+    int layerMask;
 
     private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         enemyStats = GetComponentInParent<EnemyBaseStats>();
+        layerMask = LayerMask.GetMask("PlayerPresence", "Obstacles");
     }
 
     private void Start()
@@ -26,7 +28,7 @@ public class EnemyPlayerDetection : MonoBehaviour
 
     void DetectPlayerInSightArea()
     {
-        Collider2D detectedPlayer = Physics2D.OverlapCircle(transform.position, hitboxRadius);
+        Collider2D detectedPlayer = Physics2D.OverlapCircle(transform.position, hitboxRadius, layerMask);
 
         if (detectedPlayer != null && detectedPlayer.CompareTag("Player"))
         {
@@ -41,11 +43,11 @@ public class EnemyPlayerDetection : MonoBehaviour
     void DetectPlayerSightLine(Collider2D detectedPlayer)
     {
         Vector2 directionToPlayer = (detectedPlayer.transform.position - transform.position).normalized;
-        RaycastHit2D lineOfSight = Physics2D.Raycast(transform.position, directionToPlayer, hitboxRadius);
+        RaycastHit2D lineOfSight = Physics2D.Raycast(transform.position, directionToPlayer, hitboxRadius, layerMask);
 
-        if (lineOfSight.collider != null && lineOfSight.collider.CompareTag("Player"))
+        if (lineOfSight.collider != null)
         {
-            PlayerOnSight = true;
+            PlayerOnSight = lineOfSight.collider.CompareTag("Player");
         }
         else
         {
@@ -59,16 +61,44 @@ public class EnemyPlayerDetection : MonoBehaviour
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(new Vector2(transform.position.x, transform.position.y), hitboxRadius);
+            Collider2D detectedObject = Physics2D.OverlapCircle(transform.position, hitboxRadius);
 
-            Collider2D player = Physics2D.OverlapCircle(transform.position, hitboxRadius);
-            if (player != null && player.CompareTag("Player"))
+            if (detectedObject != null)
             {
-                Gizmos.color = Color.green;
+                if (detectedObject.CompareTag("Player"))
+                {
+                    Gizmos.color = Color.green;
+                    Gizmos.DrawWireSphere(new Vector2(transform.position.x, transform.position.y), hitboxRadius);
 
-                Gizmos.DrawLine(transform.position, player.transform.position);
+                    Vector2 directionToObject = (detectedObject.transform.position - transform.position).normalized;
+                    RaycastHit2D lineOfSight = Physics2D.Raycast(transform.position, directionToObject, hitboxRadius);
+                    if (lineOfSight.collider != null)
+                    {
+                        if (lineOfSight.collider.CompareTag("Player"))
+                        {
+                            Gizmos.color = Color.green;
+                            Gizmos.DrawRay(transform.position, directionToObject * hitboxRadius);
+                        }
+                        else
+                        {
+                            Gizmos.color = Color.yellow;
+                            Gizmos.DrawRay(transform.position, directionToObject * hitboxRadius);
+                        }
+                    }
+                    else
+                    {
+                        Gizmos.color = Color.red;
+                        Gizmos.DrawRay(transform.position, directionToObject * hitboxRadius);
+                    }
+                }
+                else
+                {
+                    Gizmos.color = Color.yellow;
+                    Gizmos.DrawWireSphere(new Vector2(transform.position.x, transform.position.y), hitboxRadius);
+                }
             }
         }
     }
-    // Debug Gizoms poprawnie wykrywa gracza. Zepsuty jest skrypt chodzenia albo update pozycji gracza. Kolizja przy linii wzroku nie zatrzymuje Enemy chyba?
+    // PLAYER TAG W MAIN NODE I CHILD NODE POWODUJ• B£•D, NIE MOZE ZNALEè∆ KONTROLERA W HITBOXIE PLAYERA, TRZEBA JAKOS ZROBIC PRZERZUTE LOGIKI DO PARENTA NIE NA CHILD?? IDK XD
 
 }
