@@ -20,9 +20,6 @@ public class EnemyAI : MonoBehaviour
     EnemyPlayerDetection playerDetection;
     bool playerOnSight;
 
-    //DODAÆ KOLIZJE ENEMY Z ENEMY (Hitbox jako child)
-
-    //private bool isRoaming = true;
     private Vector2 currentVelocity = Vector2.zero;
 
     private void Awake()
@@ -52,17 +49,15 @@ public class EnemyAI : MonoBehaviour
         {
             playerOnSight = playerDetection.PlayerOnSight;
         }
+        GameObject playerHitbox = GameObject.FindWithTag("Player");
+        if (playerHitbox != null)
+        {
+            player = playerHitbox.GetComponentInParent<PlayerController>();
+        }
     }
 
     private void FixedUpdate()
     {
-        //Roaming do animacji i statusu Braku Agro, useless na razie
-        //bool isRoaming = !playerOnSight && !isSlowingDown;
-        //if (isRoaming)
-        //{
-        //    Debug.Log("Sobie chodze");
-        //}
-
         if (playerOnSight && canMove)
         {
             Vector2 direction = ((Vector2)player.transform.position - rb.position).normalized;

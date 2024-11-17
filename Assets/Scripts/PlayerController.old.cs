@@ -29,11 +29,6 @@ public class PlayerController : MonoBehaviour
         playerInput = new PlayerControls();
     }
 
-    private void Start()
-    {
-        movementSpeed = playerBaseStats.movementSpeed;
-    }
-
     void OnEnable()
     {
         playerInput.Enable();
@@ -43,6 +38,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         PlayerInput();
+        movementSpeed = playerBaseStats.movementSpeed;
     }
 
     private void FixedUpdate()

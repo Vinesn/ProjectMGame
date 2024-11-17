@@ -13,9 +13,9 @@ TagManager:
   - Enemy
   - Water
   - UI
+  - PlayerPresence
   - Player
   - Obstacles
-  - PlayerPresence
   - 
   - 
   - 
