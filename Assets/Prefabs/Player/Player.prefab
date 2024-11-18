@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5493584928231286952}
   - component: {fileID: 2391773392277598209}
   - component: {fileID: 3210890641245830034}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -309,7 +309,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4531419846264416906}
   - component: {fileID: 6984775854096698806}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: PlayerPresenceHitbox
   m_TagString: Player
   m_Icon: {fileID: 0}

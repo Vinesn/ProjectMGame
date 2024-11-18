@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7273905167138812826}
   - component: {fileID: 3029660036918686505}
   - component: {fileID: 4325307249820685127}
+  - component: {fileID: 142733218412523331}
   m_Layer: 2
   m_Name: EnemyMobBase
   m_TagString: Enemy
@@ -181,6 +182,8 @@ MonoBehaviour:
   knockBackTime: 1
   knockbackForce: 2
   stunTime: 1
+  patrolRadius: 2
+  patrolFrequency: 5
 --- !u!114 &4325307249820685127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,6 +202,18 @@ MonoBehaviour:
   Defense: 5
   movementSpeed: 0.8
   sightRadius: 1
+--- !u!114 &142733218412523331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1162204537648245739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7bf28481c10e94449d948833f758c24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3614801623064621609
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,5 +258,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b652071948fdf954fb9f1b37f1c6fa64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sightRadius: 0
-  showGizmos: 1
+  hitboxRadius: 0
+  showGizmos: 0

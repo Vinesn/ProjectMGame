@@ -8,16 +8,18 @@ public class EnemyAI : MonoBehaviour
     public float knockBackTime = 1f;
     public float knockbackForce = 2f;
     public float stunTime = 1f;
+    [SerializeField] private float patrolRadius = 2f;
+    [SerializeField] private float patrolFrequency = 5f;
     private Rigidbody2D rb;
     private PlayerController player;
     private Coroutine damaging;
-    private bool canMove = true;
-    private bool isSlowingDown = false;
     private float lastAttackTime;
     private float currentSpeed;
     private Vector2 lastTargetDirection = Vector2.zero;
-    EnemyBaseStats enemyBaseStats;
-    EnemyPlayerDetection playerDetection;
+    private Vector2 patrolTarget;
+    private EnemyBaseStats enemyBaseStats;
+    private EnemyPlayerDetection playerDetection;
+    private EnemyStateMachine enemyStateMachine;
     bool playerOnSight;
 
     private Vector2 currentVelocity = Vector2.zero;
@@ -26,6 +28,7 @@ public class EnemyAI : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         enemyBaseStats = GetComponent<EnemyBaseStats>();
+        enemyStateMachine = GetComponent<EnemyStateMachine>();
         playerDetection = GetComponentInChildren<EnemyPlayerDetection>();
     }
 
@@ -41,6 +44,8 @@ public class EnemyAI : MonoBehaviour
         {
             Debug.Log("Nie znaleziono Obiektu Gracz.");
         }
+
+        patrolTarget = GetNewPatrolPoint();
     }
 
     void Update()
@@ -49,51 +54,50 @@ public class EnemyAI : MonoBehaviour
         {
             playerOnSight = playerDetection.PlayerOnSight;
         }
-        GameObject playerHitbox = GameObject.FindWithTag("Player");
-        if (playerHitbox != null)
+
+        if (playerOnSight)
         {
-            player = playerHitbox.GetComponentInParent<PlayerController>();
+            enemyStateMachine.SetEnemyState(EnemyStateMachine.BaseState.Walk);
+        }
+        else
+        {
+            if (enemyStateMachine.GetEnemyBaseState() != EnemyStateMachine.BaseState.Patrol)
+            {
+                ChangeToPatrolState();
+            }
+        }
+        if (enemyStateMachine.GetEnemyBaseState() == EnemyStateMachine.BaseState.Wait)
+        {
+            rb.linearVelocity = Vector2.zero;
         }
     }
 
     private void FixedUpdate()
     {
-        if (playerOnSight && canMove)
+        if (playerOnSight && enemyStateMachine.GetEnemyBaseState() == EnemyStateMachine.BaseState.Walk)
         {
             Vector2 direction = ((Vector2)player.transform.position - rb.position).normalized;
-            Vector2 enemyMove = rb.position + direction * enemyBaseStats.movementSpeed * Time.fixedDeltaTime;
-            rb.MovePosition(enemyMove);
+            enemyBasicMove(direction);
 
             lastTargetDirection = direction;
-            isSlowingDown = false;
         }
+
         if (!playerOnSight && lastTargetDirection != Vector2.zero)
         {
-            if (!isSlowingDown)
-            {
-                currentSpeed = enemyBaseStats.movementSpeed;
-                isSlowingDown = true;
-            }
+            enemyMotionSlowdown();
+        }
 
-            if (currentSpeed > 0)
-            {
-                currentSpeed -= Time.deltaTime * (searchAttentionSpan);
-                if (currentSpeed < 0)
-                {
-                    currentSpeed = 0;
-                }
+        if (enemyStateMachine.GetEnemyBaseState() == EnemyStateMachine.BaseState.Patrol)
+        {
+            MoveTowardsPatrolTarget();
 
-                Vector2 enemyMove = rb.position + lastTargetDirection * currentSpeed * Time.fixedDeltaTime;
-                rb.MovePosition(enemyMove);
-            }
-
-            if (currentSpeed == 0)
+            if (Vector2.Distance(rb.position, patrolTarget) < 0.1f)
             {
-                lastTargetDirection = Vector2.zero;
-                isSlowingDown = false;
+                StartCoroutine(WaitBeforeNextPatrol());
             }
         }
     }
+
     public EnemyBaseStats GetEnemyStats()
     {
         return enemyBaseStats;
@@ -101,12 +105,85 @@ public class EnemyAI : MonoBehaviour
 
     private IEnumerator DealDamage(GameObject playerObject)
     {
-        canMove = false;
+        enemyStateMachine.SetEnemyState(EnemyStateMachine.BaseState.Attack);
         player.ReceiveDamageFrom(this);
         lastAttackTime = Time.time;
 
         yield return new WaitForSeconds(enemyBaseStats.attackCD);
 
-        canMove = true;
+        enemyStateMachine.SetEnemyState(EnemyStateMachine.BaseState.Walk);
+    }
+
+    void enemyMotionSlowdown()
+    {
+        if (enemyStateMachine.GetEnemyBaseState() != EnemyStateMachine.BaseState.SlowDown)
+        {
+            currentSpeed = enemyBaseStats.movementSpeed;
+            enemyStateMachine.SetEnemyState(EnemyStateMachine.BaseState.SlowDown);
+        }
+
+        if (currentSpeed > 0)
+        {
+            currentSpeed -= Time.deltaTime * (searchAttentionSpan);
+            if (currentSpeed < 0)
+            {
+                currentSpeed = 0;
+            }
+
+            Vector2 enemyMove = rb.position + lastTargetDirection * currentSpeed * Time.fixedDeltaTime;
+            rb.MovePosition(enemyMove);
+        }
+
+        if (currentSpeed == 0)
+        {
+            lastTargetDirection = Vector2.zero;
+            enemyStateMachine.SetEnemyState(EnemyStateMachine.BaseState.Wait);
+            StartCoroutine(WaitBeforeNextPatrol());  // Czekamy, a¿ minie czas patrolu
+        }
+    }
+
+    void ChangeToPatrolState()
+    {
+        enemyStateMachine.SetEnemyState(EnemyStateMachine.BaseState.Patrol);
+    }
+
+    void enemyBasicMove(Vector2 direction)
+    {
+        Vector2 enemyMove = rb.position + direction * enemyBaseStats.movementSpeed * Time.fixedDeltaTime;
+        rb.MovePosition(enemyMove);
+    }
+
+    void enemyPatrolMove()
+    {
+        Vector2 patrolCheckpointPosition = Random.insideUnitCircle * patrolRadius;
+        Vector2 patrolMove = rb.position + (patrolCheckpointPosition * (enemyBaseStats.movementSpeed * 0.7f) * Time.fixedDeltaTime);
+        rb.MovePosition(patrolMove);
+    }
+
+    Vector2 GetNewPatrolPoint()
+    {
+        return (Vector2)transform.position + Random.insideUnitCircle * patrolRadius;
+    }
+
+    float GetRandomTimeRange(float min, float max)
+    {
+        return Random.Range(min, max);
+    }
+
+    private void MoveTowardsPatrolTarget()
+    {
+        Vector2 direction = (patrolTarget - rb.position).normalized;
+        rb.MovePosition(rb.position + direction * enemyBaseStats.movementSpeed * Time.fixedDeltaTime);
+    }
+
+    private IEnumerator WaitBeforeNextPatrol()
+    {
+        enemyStateMachine.SetEnemyState(EnemyStateMachine.BaseState.Wait);
+
+        yield return new WaitForSeconds(patrolFrequency);
+
+        patrolTarget = GetNewPatrolPoint();
+
+        ChangeToPatrolState();
     }
 }

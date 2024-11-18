@@ -205,7 +205,7 @@ GameObject:
   - component: {fileID: 442806903}
   - component: {fileID: 442806902}
   - component: {fileID: 442806901}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: kamyk_0 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -514,7 +514,7 @@ GameObject:
   - component: {fileID: 632574082}
   - component: {fileID: 632574081}
   - component: {fileID: 632574080}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: kamyk_0 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -693,7 +693,7 @@ GameObject:
   - component: {fileID: 1365976832}
   - component: {fileID: 1365976834}
   - component: {fileID: 1365976833}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: kamyk_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -974,7 +974,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 1.5190476
+  orthographic size: 1.3904762
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -8350,10 +8350,6 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4286988272251468747, guid: 087f577c74c97ba429068446d08e7b8a, type: 3}
-      propertyPath: showGizmos
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4986009582468698620, guid: 087f577c74c97ba429068446d08e7b8a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2
@@ -8396,7 +8392,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7273905167138812826, guid: 087f577c74c97ba429068446d08e7b8a, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5557324195660093063, guid: 087f577c74c97ba429068446d08e7b8a, type: 3}
