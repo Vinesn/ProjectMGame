@@ -34,17 +34,23 @@ public class EnemyAI : MonoBehaviour
 
     void Start()
     {
-        GameObject playerObject = GameObject.FindWithTag("Player");
+        GameObject[] playerObject = GameObject.FindGameObjectsWithTag("Player");
 
         if (playerObject != null)
         {
-            player = playerObject.GetComponent<PlayerController>();
+            foreach(GameObject obj in playerObject)
+            {
+                player = obj.GetComponent<PlayerController>();
+                if (player != null)
+                {
+                    break;
+                }
+            }
         }
         else
         {
             Debug.Log("Nie znaleziono Obiektu Gracz.");
         }
-
         patrolTarget = GetNewPatrolPoint();
     }
 
@@ -65,10 +71,6 @@ public class EnemyAI : MonoBehaviour
             {
                 ChangeToPatrolState();
             }
-        }
-        if (enemyStateMachine.GetEnemyBaseState() == EnemyStateMachine.BaseState.Wait)
-        {
-            rb.linearVelocity = Vector2.zero;
         }
     }
 
@@ -93,6 +95,7 @@ public class EnemyAI : MonoBehaviour
 
             if (Vector2.Distance(rb.position, patrolTarget) < 0.1f)
             {
+                rb.linearVelocity = Vector2.zero;
                 StartCoroutine(WaitBeforeNextPatrol());
             }
         }
@@ -113,22 +116,19 @@ public class EnemyAI : MonoBehaviour
 
         enemyStateMachine.SetEnemyState(EnemyStateMachine.BaseState.Walk);
     }
-
     void enemyMotionSlowdown()
     {
         if (enemyStateMachine.GetEnemyBaseState() != EnemyStateMachine.BaseState.SlowDown)
         {
-            currentSpeed = enemyBaseStats.movementSpeed;
             enemyStateMachine.SetEnemyState(EnemyStateMachine.BaseState.SlowDown);
+            Debug.Log("Switching to SlowDown state");
+            currentSpeed = enemyBaseStats.movementSpeed;
         }
-
         if (currentSpeed > 0)
         {
-            currentSpeed -= Time.deltaTime * (searchAttentionSpan);
-            if (currentSpeed < 0)
-            {
-                currentSpeed = 0;
-            }
+            currentSpeed -= Time.deltaTime * searchAttentionSpan;
+
+            Debug.Log($"Updated Speed: {currentSpeed}");
 
             Vector2 enemyMove = rb.position + lastTargetDirection * currentSpeed * Time.fixedDeltaTime;
             rb.MovePosition(enemyMove);
@@ -136,9 +136,10 @@ public class EnemyAI : MonoBehaviour
 
         if (currentSpeed == 0)
         {
+            Debug.Log("Speed reached 0, switching to Patrol state");
             lastTargetDirection = Vector2.zero;
-            enemyStateMachine.SetEnemyState(EnemyStateMachine.BaseState.Wait);
-            StartCoroutine(WaitBeforeNextPatrol());  // Czekamy, a¿ minie czas patrolu
+            enemyStateMachine.SetEnemyState(EnemyStateMachine.BaseState.Patrol);
+            StartCoroutine(WaitBeforeNextPatrol());
         }
     }
 
