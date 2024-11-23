@@ -259,4 +259,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitboxRadius: 0
-  showGizmos: 0
+  showGizmos: 1
