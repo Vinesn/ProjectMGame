@@ -5,7 +5,7 @@ public class EnemyStateMachine : MonoBehaviour
     public enum BaseState
     {
         Patrol,
-        Walk,
+        Pursue,
         SlowDown,
         Attack,
         Damaged,

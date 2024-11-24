@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections;
-using Unity.Cinemachine;
+using Pathfinding;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -10,7 +10,7 @@ public class EnemyAI : MonoBehaviour
     public float stunTime = 1f;
     [SerializeField] private float patrolRadius = 2f;
     [SerializeField] private float patrolFrequency = 5f;
-    [SerializeField] [Range(0.1f, 1.0f)] private float patrolMoveSpeed = 0.4f;
+    [SerializeField][Range(0.1f, 1.0f)] private float patrolMoveSpeed = 0.4f;
     private Rigidbody2D rb;
     private PlayerController player;
     private Coroutine damaging;
@@ -22,12 +22,22 @@ public class EnemyAI : MonoBehaviour
     private EnemyPlayerDetection playerDetection;
     private EnemyStateMachine enemyStateMachine;
     bool playerOnSight;
-
     private Vector2 currentVelocity = Vector2.zero;
+
+    [Header("PathFinder")]
+    public Transform target;
+    public float nextWaypointDistance = 3f;
+    public float speed = 300f;
+    public float pathUpdateSeconds = 0.5f;
+    Path path;
+    Seeker seeker;
+    int currentWaypoint = 0;
+    bool reachedEndOfPath = false;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        seeker = GetComponent<Seeker>();
         enemyBaseStats = GetComponent<EnemyBaseStats>();
         enemyStateMachine = GetComponent<EnemyStateMachine>();
         playerDetection = GetComponentInChildren<EnemyPlayerDetection>();
@@ -39,7 +49,7 @@ public class EnemyAI : MonoBehaviour
 
         if (playerObject != null)
         {
-            foreach(GameObject obj in playerObject)
+            foreach (GameObject obj in playerObject)
             {
                 player = obj.GetComponent<PlayerController>();
                 if (player != null)
@@ -52,52 +62,88 @@ public class EnemyAI : MonoBehaviour
         {
             Debug.Log("Nie znaleziono Obiektu Gracz.");
         }
-        patrolTarget = GetNewPatrolPoint();
+        //patrolTarget = GetNewPatrolPoint();
+
+        InvokeRepeating("UpdatePath", 0f, pathUpdateSeconds);
+    }
+    void UpdatePath()
+    {
+        if (seeker.IsDone())
+        {
+        seeker.StartPath(rb.position, target.position, OnPathComplete);
+        }
+    }
+
+    void OnPathComplete(Path p)
+    {
+        if (!p.error)
+        {
+            path = p;
+            currentWaypoint = 0;
+        }           
+    }
+    void PathFollow()
+    {
+        if (path == null)
+        {
+            return;
+        }
+        if (currentWaypoint >= path.vectorPath.Count)
+        {
+            reachedEndOfPath = true;
+            return;
+        }
+        Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
+        Vector2 force = direction * speed * Time.fixedDeltaTime;
+
+        rb.linearVelocity = Vector2.SmoothDamp(rb.linearVelocity, force, ref currentVelocity, 0.5f); ;
+        
+        float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
+        if (distance < nextWaypointDistance)
+        {
+            currentWaypoint++;
+        }
     }
 
     void Update()
     {
-        if (playerDetection != null)
-        {
-            playerOnSight = playerDetection.PlayerOnSight;
-        }
-
-        if (playerOnSight)
-        {
-            enemyStateMachine.SetEnemyState(EnemyStateMachine.BaseState.Walk);
-        }
-
-        //nie ruszam sie jak chodze zmien stan
-        //if (enemyStateMachine.GetEnemyBaseState() != EnemyStateMachine.BaseState.Wait && )
+        //if (playerDetection != null)
         //{
+        //    playerOnSight = playerDetection.PlayerOnSight;
+        //}
 
+        //if (playerOnSight)
+        //{
+        //    enemyStateMachine.SetEnemyState(EnemyStateMachine.BaseState.Pursue);
         //}
     }
 
     private void FixedUpdate()
     {
-        if (playerOnSight && enemyStateMachine.GetEnemyBaseState() == EnemyStateMachine.BaseState.Walk)
-        {
-            Vector2 direction = ((Vector2)player.transform.position - rb.position).normalized;
-            EnemyBasicMove(direction, enemyBaseStats.movementSpeed);
+        PathFollow();
 
-            lastTargetDirection = direction;
-        }
+        //if (playerOnSight && enemyStateMachine.GetEnemyBaseState() == EnemyStateMachine.BaseState.Pursue)
+        //{
+        //    Vector2 direction = ((Vector2)player.transform.position - rb.position).normalized;
+        //    EnemyBasicMove(direction, enemyBaseStats.movementSpeed);
 
-        if (!playerOnSight && lastTargetDirection != Vector2.zero)
-        {
-            enemyMotionSlowdown();
-        }
+        //    lastTargetDirection = direction;
+        //}
 
-        if (enemyStateMachine.GetEnemyBaseState() == EnemyStateMachine.BaseState.Patrol)
-        {
-            MoveTowardsPatrolTarget();
+        //if (!playerOnSight && lastTargetDirection != Vector2.zero)
+        //{
+        //    enemyMotionSlowdown();
+        //}
 
-            if (Vector2.Distance(rb.position, patrolTarget) < 0.1f)
-            {
-                StartCoroutine(WaitBeforeNextPatrol());
-            }
-        }
+        //if (enemyStateMachine.GetEnemyBaseState() == EnemyStateMachine.BaseState.Patrol)
+        //{
+        //    MoveTowardsPatrolTarget();
+
+        //    if (Vector2.Distance(rb.position, patrolTarget) < 0.1f)
+        //    {
+        //        StartCoroutine(WaitBeforeNextPatrol());
+        //    }
+        //}
     }
 
     public EnemyBaseStats GetEnemyStats()
@@ -113,7 +159,7 @@ public class EnemyAI : MonoBehaviour
 
         yield return new WaitForSeconds(enemyBaseStats.attackCD);
 
-        enemyStateMachine.SetEnemyState(EnemyStateMachine.BaseState.Walk);
+        enemyStateMachine.SetEnemyState(EnemyStateMachine.BaseState.Pursue);
     }
     void enemyMotionSlowdown()
     {
